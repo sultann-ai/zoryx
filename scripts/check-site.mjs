@@ -83,17 +83,20 @@ record('External links have rel="noopener noreferrer"', !problems["external-rel"
 
 /* ---------- 2. contact links use the content values ---------- */
 const digits = (s) => s.replace(/\D/g, "");
-const expectTel = "tel:" + site.phone.replace(/[^\d+]/g, "");
-const expectMail = "mailto:" + (site.email.match(/[^\s:]+@[^\s]+/)?.[0] ?? site.email);
+// Phone and email are optional: only checked when set in content/site.ts. WhatsApp is required.
+const expectTel = site.phone ? "tel:" + site.phone.replace(/[^\d+]/g, "") : null;
+const expectMail = site.email ? "mailto:" + (site.email.match(/[^\s:]+@[^\s]+/)?.[0] ?? site.email) : null;
 const expectWa = digits(site.whatsappNumber);
 const bad = [];
 for (const [r, h] of wanted.tel) if (h !== expectTel) bad.push(`${r}: ${h} (content: ${expectTel})`);
 for (const [r, h] of wanted.mailto) if (h !== expectMail) bad.push(`${r}: ${h} (content: ${expectMail})`);
+if (!site.phone && wanted.tel.length > 0) bad.push("tel: links exist but no phone is set in content");
+if (!site.email && wanted.mailto.length > 0) bad.push("mailto: links exist but no email is set in content");
 for (const [r, h] of wanted.wa) if (!h.startsWith(`https://wa.me/${expectWa}?text=`)) bad.push(`${r}: ${h.slice(0, 50)} (content: ${expectWa})`);
-record("tel:, mailto:, wa.me links match content/site.ts", bad.length === 0 && wanted.tel.length > 0 && wanted.mailto.length > 0 && wanted.wa.length > 0,
+record("tel:, mailto:, wa.me links match content/site.ts", bad.length === 0 && wanted.wa.length > 0 && (!site.phone || wanted.tel.length > 0) && (!site.email || wanted.mailto.length > 0),
   `tel x${wanted.tel.length}, mailto x${wanted.mailto.length}, wa.me x${wanted.wa.length}` + bad.map((p) => `\n      ${p}`).join(""));
-const demoValues = [["phone", site.phone], ["email", site.email], ["WhatsApp number", site.whatsappNumber]].filter(([, v]) => /DEMO:|\[/.test(v));
-record("Contact values are real (not demo)", demoValues.length === 0, demoValues.map(([k, v]) => `${k} is still "${v}"`).join("; ") || "phone, email and WhatsApp number are set");
+const demoValues = [["phone", site.phone], ["email", site.email], ["WhatsApp number", site.whatsappNumber]].filter(([, v]) => v && /DEMO:|\[/.test(v));
+record("Contact values are real (not demo)", demoValues.length === 0, demoValues.map(([k, v]) => `${k} is still "${v}"`).join("; ") || "WhatsApp number is set (phone and email are optional)");
 
 /* ---------- 3. seo / metadata ---------- */
 const meta = (html, re) => (html.match(re) || [])[1];

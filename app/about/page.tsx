@@ -18,6 +18,9 @@ export const metadata = buildMetadata(seo.about, "/about/");
 
 export default function AboutPage() {
   const hasTeam = aboutPage.team.length > 0;
+  const hasStory = Boolean(aboutPage.storyText);
+  // Without a values heading the cards' titles become the section's h2s, so heading levels stay in order.
+  const ValueTitle = aboutPage.valuesHeading ? "h3" : "h2";
 
   return (
     <main>
@@ -26,8 +29,10 @@ export default function AboutPage() {
           <SectionHeading as="h1" background="green" title={aboutPage.heading} />
         </Container>
       </section>
-      <ArcDivider />
+      <ArcDivider to={hasStory ? "cream" : "white"} />
 
+      {/* Hidden while aboutPage.storyText is commented out in content/site.ts. */}
+      {hasStory ? (
       <Section background="cream" className="pt-12 md:pt-12">
         <div className={clsx("grid items-center gap-12 lg:gap-16", aboutPage.storyImage && "lg:grid-cols-2")}>
           <div>
@@ -46,17 +51,18 @@ export default function AboutPage() {
           ) : null}
         </div>
       </Section>
+      ) : null}
 
-      <Section background="white">
-        <SectionHeading background="white" title={aboutPage.valuesHeading} />
-        <ul className="mt-12 grid gap-6 md:grid-cols-3">
+      <Section background="white" className={hasStory ? undefined : "pt-12 md:pt-12"}>
+        {aboutPage.valuesHeading ? <SectionHeading background="white" title={aboutPage.valuesHeading} /> : null}
+        <ul className={clsx("grid gap-6 md:grid-cols-3", aboutPage.valuesHeading && "mt-12")}>
           {aboutPage.values.map((value) => {
             const Icon = doodles[value.icon];
             return (
               <li key={value.title} className="flex">
                 <Card className="w-full">
                   <Icon size={48} className="text-green" />
-                  <h3 className="text-h3 mt-6 text-green">{value.title}</h3>
+                  <ValueTitle className="text-h3 mt-6 text-green">{value.title}</ValueTitle>
                   <p className="text-body mt-3 text-ink">{value.text}</p>
                 </Card>
               </li>
@@ -88,7 +94,8 @@ export default function AboutPage() {
         </Section>
       ) : null}
 
-      {/* Alternates with the section above so two white sections never touch. */}
+      {/* Hidden while aboutPage.visitText is commented out. Alternates with the section above so two white sections never touch. */}
+      {aboutPage.visitText ? (
       <Section background={hasTeam ? "white" : "cream"} id="visit">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <div>
@@ -108,6 +115,7 @@ export default function AboutPage() {
           <MapEmbed />
         </div>
       </Section>
+      ) : null}
 
       <FinalCta />
     </main>

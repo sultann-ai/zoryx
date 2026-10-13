@@ -38,6 +38,10 @@ function ContactRow({ icon, children }: { icon: ReactNode; children: ReactNode }
 
 export function Footer() {
   const { company, solutions, contactHeading } = footer.columns;
+  const socialLinks = socials.flatMap(({ key, Icon }) => {
+    const url = site.social[key];
+    return url && isRealUrl(url) ? [{ key, Icon, url }] : [];
+  });
 
   return (
     <footer className="defer-render on-dark bg-green-deep py-18 text-cream">
@@ -79,16 +83,18 @@ export function Footer() {
           <div>
             <ColumnHeading>{contactHeading}</ColumnHeading>
             <ul>
-              <ContactRow icon={<Phone size={18} />}>
-                <TrackedLink
-                  href={telHref(site.phone)}
-                  event="phone_click"
-                  location="footer"
-                  className={linkClass}
-                >
-                  {site.phone}
-                </TrackedLink>
-              </ContactRow>
+              {site.phone ? (
+                <ContactRow icon={<Phone size={18} />}>
+                  <TrackedLink
+                    href={telHref(site.phone)}
+                    event="phone_click"
+                    location="footer"
+                    className={linkClass}
+                  >
+                    {site.phone}
+                  </TrackedLink>
+                </ContactRow>
+              ) : null}
               <ContactRow icon={<WhatsAppIcon size={18} />}>
                 <TrackedLink
                   href={buildWhatsAppLink()}
@@ -99,65 +105,60 @@ export function Footer() {
                   {contactPage.whatsappLabel}
                 </TrackedLink>
               </ContactRow>
-              <ContactRow icon={<Mail size={18} />}>
-                <a href={mailtoHref(site.email)} className={linkClass}>
-                  {site.email}
-                </a>
-              </ContactRow>
-              <ContactRow icon={<MapPin size={18} />}>
-                <p className="text-body py-3">{site.address}</p>
-              </ContactRow>
-              <ContactRow icon={<Clock size={18} />}>
-                <p className="text-body py-3">{site.supportHours}</p>
-              </ContactRow>
+              {site.email ? (
+                <ContactRow icon={<Mail size={18} />}>
+                  <a href={mailtoHref(site.email)} className={linkClass}>
+                    {site.email}
+                  </a>
+                </ContactRow>
+              ) : null}
+              {site.address ? (
+                <ContactRow icon={<MapPin size={18} />}>
+                  <p className="text-body py-3">{site.address}</p>
+                </ContactRow>
+              ) : null}
+              {site.supportHours ? (
+                <ContactRow icon={<Clock size={18} />}>
+                  <p className="text-body py-3">{site.supportHours}</p>
+                </ContactRow>
+              ) : null}
             </ul>
           </div>
         </div>
 
         <div className="mt-12 flex flex-col gap-6 border-t border-cream/20 pt-8 md:flex-row md:items-center md:justify-between">
-          <ul className="flex items-center gap-2">
-            {socials.map(({ key, Icon }) => {
-              const url = site.social[key];
-              const label = uiLabels.social[key];
-              return (
+          {/* Only social links with a real URL are shown. */}
+          {socialLinks.length > 0 ? (
+            <ul className="flex items-center gap-2">
+              {socialLinks.map(({ key, Icon, url }) => (
                 <li key={key}>
-                  {isRealUrl(url) ? (
-                    <a
-                      href={url}
-                      aria-label={label}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex size-11 items-center justify-center rounded-pill transition-colors duration-150 hover:text-lime"
-                    >
-                      <Icon size={22} />
-                    </a>
-                  ) : (
-                    // Placeholder URL: show the icon unlinked, titled with the marker.
-                    <span
-                      title={url}
-                      role="img"
-                      aria-label={`${label} ${url}`}
-                      className="flex size-11 items-center justify-center opacity-60"
-                    >
-                      <Icon size={22} />
-                    </span>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-
-          <nav aria-label={uiLabels.footerLegalNav}>
-            <ul className="flex flex-wrap gap-x-6">
-              {footer.legal.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className={linkClass}>
-                    {link.label}
-                  </Link>
+                  <a
+                    href={url}
+                    aria-label={uiLabels.social[key]}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex size-11 items-center justify-center rounded-pill transition-colors duration-150 hover:text-lime"
+                  >
+                    <Icon size={22} />
+                  </a>
                 </li>
               ))}
             </ul>
-          </nav>
+          ) : null}
+
+          {footer.legal.length > 0 ? (
+            <nav aria-label={uiLabels.footerLegalNav}>
+              <ul className="flex flex-wrap gap-x-6">
+                {footer.legal.map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href} className={linkClass}>
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ) : null}
 
           <p className="text-label">{footer.copyright}</p>
         </div>

@@ -1,4 +1,3 @@
-import { ImageFrame } from "@/components/ui/ImageFrame";
 import { aboutPage, site } from "@/content/site";
 import { isRealUrl } from "@/lib/links";
 
@@ -7,18 +6,9 @@ interface MapEmbedProps {
   aspect?: string;
 }
 
-/** Lazy-loaded Google Map in a rounded frame. Shows a labelled placeholder until a real embed URL is set. */
+/** Lazy-loaded Google Map in a rounded frame. Renders nothing until site.mapEmbedUrl is a real URL. */
 export function MapEmbed({ aspect = "4 / 3" }: MapEmbedProps) {
-  if (!isRealUrl(site.mapEmbedUrl)) {
-    return (
-      <ImageFrame
-        on="cream"
-        alt={aboutPage.mapTitle}
-        placeholder={site.mapEmbedUrl}
-        aspect={aspect}
-      />
-    );
-  }
+  if (!site.mapEmbedUrl || !isRealUrl(site.mapEmbedUrl)) return null;
 
   return (
     <div

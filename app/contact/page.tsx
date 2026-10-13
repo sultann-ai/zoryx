@@ -32,6 +32,8 @@ function DetailRow({ icon, children }: { icon: ReactNode; children: ReactNode })
 }
 
 export default function ContactPage() {
+  const hasDetails = Boolean(site.phone || site.email || site.address || site.supportHours || site.replyTime);
+
   return (
     <>
       <JsonLd data={localBusinessJsonLd()} />
@@ -61,26 +63,33 @@ export default function ContactPage() {
                 <span className="text-h2 mt-6 block">{contactPage.whatsappLabel}</span>
               </TrackedLink>
 
-              <ul className="space-y-5">
-                <DetailRow icon={<Phone size={24} />}>
-                  <TrackedLink
-                    href={telHref(site.phone)}
-                    event="phone_click"
-                    location="contact_details"
-                    className={linkClass}
-                  >
-                    {site.phone}
-                  </TrackedLink>
-                </DetailRow>
-                <DetailRow icon={<Mail size={24} />}>
-                  <a href={mailtoHref(site.email)} className={linkClass}>
-                    {site.email}
-                  </a>
-                </DetailRow>
-                <DetailRow icon={<MapPin size={24} />}>{site.address}</DetailRow>
-                <DetailRow icon={<Clock size={24} />}>{site.supportHours}</DetailRow>
-                <DetailRow icon={<MessageCircle size={24} />}>{site.replyTime}</DetailRow>
-              </ul>
+              {/* Each detail shows only when it is set in content/site.ts. */}
+              {hasDetails ? (
+                <ul className="space-y-5">
+                  {site.phone ? (
+                    <DetailRow icon={<Phone size={24} />}>
+                      <TrackedLink
+                        href={telHref(site.phone)}
+                        event="phone_click"
+                        location="contact_details"
+                        className={linkClass}
+                      >
+                        {site.phone}
+                      </TrackedLink>
+                    </DetailRow>
+                  ) : null}
+                  {site.email ? (
+                    <DetailRow icon={<Mail size={24} />}>
+                      <a href={mailtoHref(site.email)} className={linkClass}>
+                        {site.email}
+                      </a>
+                    </DetailRow>
+                  ) : null}
+                  {site.address ? <DetailRow icon={<MapPin size={24} />}>{site.address}</DetailRow> : null}
+                  {site.supportHours ? <DetailRow icon={<Clock size={24} />}>{site.supportHours}</DetailRow> : null}
+                  {site.replyTime ? <DetailRow icon={<MessageCircle size={24} />}>{site.replyTime}</DetailRow> : null}
+                </ul>
+              ) : null}
             </div>
 
             <Card surface="cream" shadow className="md:p-12">
@@ -89,9 +98,11 @@ export default function ContactPage() {
           </div>
         </Section>
 
-        <Section background="cream">
-          <MapEmbed aspect="16 / 9" />
-        </Section>
+        {site.mapEmbedUrl ? (
+          <Section background="cream">
+            <MapEmbed aspect="16 / 9" />
+          </Section>
+        ) : null}
       </main>
     </>
   );

@@ -27,7 +27,9 @@ export function DemoVideo() {
             placeholder={placeholder}
           />
         )}
-        <figcaption className="text-label mt-4 text-center text-ink">{videoCaption}</figcaption>
+        {videoCaption ? (
+          <figcaption className="text-label mt-4 text-center text-ink">{videoCaption}</figcaption>
+        ) : null}
       </figure>
     </Section>
   );

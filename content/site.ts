@@ -7,9 +7,9 @@
 /* ---------- Types ---------- */
 
 export interface SocialLinks {
-  instagram: string;
-  facebook: string;
-  linkedin: string;
+  instagram?: string;
+  facebook?: string;
+  linkedin?: string;
 }
 
 export interface SiteConfig {
@@ -18,16 +18,22 @@ export interface SiteConfig {
   domain: string;
   tagline: string;
   footerDescription: string;
-  phone: string;
-  /** International format, no "+". */
+  /** Optional: shown in the footer and on the contact page when set. */
+  phone?: string;
+  /** International format, no "+". Required: every WhatsApp button uses it. */
   whatsappNumber: string;
-  email: string;
-  address: string;
-  mapsUrl: string;
-  /** Google Maps embed URL (the src of the iframe). */
-  mapEmbedUrl: string;
-  supportHours: string;
-  replyTime: string;
+  /** Optional. */
+  email?: string;
+  /** Optional. */
+  address?: string;
+  /** Optional. */
+  mapsUrl?: string;
+  /** Optional: Google Maps embed URL (the src of the iframe). Shows the map when set. */
+  mapEmbedUrl?: string;
+  /** Optional. */
+  supportHours?: string;
+  /** Optional. */
+  replyTime?: string;
   social: SocialLinks;
   defaultWhatsAppMessage: string;
   /** Opening line of the message built by buildDemoMessage (lib/whatsapp.ts). */
@@ -80,7 +86,8 @@ export interface SeeItWorking {
   video?: DemoVideoSource;
   heading: string;
   text: string;
-  videoCaption: string;
+  /** Optional caption under the video. */
+  videoCaption?: string;
   placeholder: string;
 }
 
@@ -226,18 +233,21 @@ export const site: SiteConfig = {
   tagline: "Custom POS and online ordering, built around your shop.",
   footerDescription:
     "A local team in Islamabad and Rawalpindi building custom POS and online ordering systems for food businesses.",
-  phone: "DEMO: +92 300 0000000",
-  whatsappNumber: "DEMO: 923000000000",
-  email: "DEMO: hello@zoryx.dev",
-  address: "DEMO: [Office no.], [Building], [Area], Islamabad",
-  mapsUrl: "[GOOGLE MAPS LINK]",
-  mapEmbedUrl: "[GOOGLE MAPS EMBED URL]",
-  supportHours: "DEMO: Monday to Saturday, 10:00 am to 8:00 pm",
-  replyTime: "DEMO: We reply within 2 hours during support hours",
+  // Hidden for the first deploy. Uncomment and fill in to show it.
+  // phone: "+92 300 1234567",
+  // Your WhatsApp number: international format, digits only (92 + number without the leading 0).
+  // Every WhatsApp button, the floating button and the contact form fallback use it.
+  whatsappNumber: "923079911776",
+  // email: "hello@zoryx.dev",
+  // address: "Office no., Building, Area, Islamabad",
+  // mapsUrl: "https://maps.google.com/...",
+  // mapEmbedUrl: "https://www.google.com/maps/embed?pb=...",
+  // supportHours: "Monday to Saturday, 10:00 am to 8:00 pm",
+  // replyTime: "We reply within 2 hours during support hours",
   social: {
-    instagram: "[INSTAGRAM URL]",
-    facebook: "[FACEBOOK URL]",
-    linkedin: "[LINKEDIN URL]",
+    // instagram: "https://www.instagram.com/yourpage",
+    // facebook: "https://www.facebook.com/yourpage",
+    // linkedin: "https://www.linkedin.com/company/yourpage",
   },
   defaultWhatsAppMessage: "Hi Zoryx, I'd like a free demo for my shop. Shop name: [ ] Area: [ ]",
   demoMessageIntro: "Hi Zoryx, I'd like a free demo for my shop.",
@@ -307,8 +317,9 @@ export const seeItWorking: SeeItWorking = {
   },
   heading: "See It Working",
   text: "A one-minute look at a real system running at a café in Rawalpindi: taking an order, printing the bill, and receiving an online order.",
-  videoCaption: "DEMO: Running live at Murshad Cafe",
-  placeholder: "[60-SECOND DEMO VIDEO]",
+  // Caption hidden for the first deploy. Uncomment and edit to show one under the video:
+  // videoCaption: "Running live at a café",
+  placeholder: "Demo video",
 };
 
 export const problemBand: ProblemBand = {
@@ -677,7 +688,8 @@ export const solutionsPage: {
   ],
   hardware: {
     heading: "Hardware",
-    text: "Zoryx runs on a laptop or tablet you may already have. We can recommend and set up a receipt printer, cash drawer and barcode scanner. DEMO: [Supported printer models]",
+    text: "Zoryx runs on a laptop or tablet you may already have. We can recommend and set up a receipt printer, cash drawer and barcode scanner.",
+    // Add supported printer models here when you have the list.
   },
 };
 
@@ -739,22 +751,25 @@ export const aboutPage: {
   heading: string;
   /** Story section photo (4:3). */
   storyImage?: ScreenshotSpec;
-  valuesHeading: string;
+  /** Optional: without it the value cards stand without a heading. */
+  valuesHeading?: string;
   teamHeading: string;
   teamPhotoPlaceholder: string;
   mapTitle: string;
   storyHeading: string;
-  storyText: string;
+  /** Optional: the story section is hidden without it. */
+  storyText?: string;
   values: ValueItem[];
   team: TeamMember[];
   visitHeading: string;
-  visitText: string;
+  /** Optional: the Visit us section is hidden without it. */
+  visitText?: string;
 } = {
   heading: "About Zoryx",
   // Not in the SRS: placeholders and labels for the owner to confirm.
   // Story photo hidden for now. Uncomment, and add src, to show it beside the story text:
   // storyImage: { src: "/images/about/team.webp", alt: "The Zoryx team", placeholder: "The Zoryx team" },
-  valuesHeading: "DEMO: What We Stand For",
+  // valuesHeading: "What We Stand For", // Hidden for the first deploy.
   // Team section hidden until there are real people and photos. Restore these two lines with the team below:
   // teamHeading: "Meet the Team",
   // teamPhotoPlaceholder: "Team member photo",
@@ -762,8 +777,9 @@ export const aboutPage: {
   teamPhotoPlaceholder: "",
   mapTitle: "Map of the Zoryx office",
   storyHeading: "Built Here, for Shops Here",
-  storyText:
-    "DEMO: Zoryx started when we built a POS and online ordering system for a café in Rawalpindi and saw how much time and money a system built around the shop could save. We're a small team of engineers and designers in Islamabad and Rawalpindi, and we set up and support every system ourselves.",
+  // Story hidden until you write it (it needs real facts about Zoryx). Uncomment and edit to show it:
+  // storyText:
+  //   "Write two or three honest sentences about who you are and why you build POS systems.",
   values: [
     {
       icon: "pos",
@@ -789,7 +805,7 @@ export const aboutPage: {
     // { name: "[Name]", role: "Support and Onboarding", line: "[One line]" },
   ],
   visitHeading: "Visit us",
-  visitText: "DEMO: [Office address]. Please message us on WhatsApp before visiting.",
+  // visitText: "Our office address. Please message us on WhatsApp before visiting.", // Hidden for the first deploy.
 };
 
 /* ---------- 7.7 FAQ ---------- */
@@ -798,12 +814,13 @@ export const faqGroups: FaqGroup[] = [
   {
     title: "Setup",
     items: [
-      {
-        id: "setup-time",
-        question: "How long does setup take?",
-        answer:
-          "DEMO: Most shops go live within 7 to 10 days after the free visit, depending on menu size and hardware.",
-      },
+      // Hidden until the answer is real:
+      // {
+      //   id: "setup-time",
+      //   question: "How long does setup take?",
+      //   answer:
+      //     "DEMO: Most shops go live within 7 to 10 days after the free visit, depending on menu size and hardware.",
+      // },
       {
         id: "hardware",
         question: "What hardware do I need?",
@@ -820,16 +837,18 @@ export const faqGroups: FaqGroup[] = [
   {
     title: "Using it",
     items: [
-      {
-        id: "offline",
-        question: "Does it work if the internet goes down?",
-        answer: "DEMO: [Answer depends on build: describe offline billing behaviour]",
-      },
-      {
-        id: "urdu",
-        question: "Can my staff use it in Urdu?",
-        answer: "DEMO: [Answer: Urdu interface available / planned]",
-      },
+      // Hidden until the answer is real:
+      // {
+      //   id: "offline",
+      //   question: "Does it work if the internet goes down?",
+      //   answer: "DEMO: [Answer depends on build: describe offline billing behaviour]",
+      // },
+      // Hidden until the answer is real:
+      // {
+      //   id: "urdu",
+      //   question: "Can my staff use it in Urdu?",
+      //   answer: "DEMO: [Answer: Urdu interface available / planned]",
+      // },
       {
         id: "deals-tables",
         question: "Can it handle deals, add-ons and table orders?",
@@ -846,12 +865,13 @@ export const faqGroups: FaqGroup[] = [
         answer:
           "Pricing is a one-time setup fee plus a simple monthly plan. It depends on what you need, so we give you a clear quote after the free visit.",
       },
-      {
-        id: "monthly-fee",
-        question: "What does the monthly fee cover?",
-        answer:
-          "DEMO: Hosting, updates, backups and support on WhatsApp during support hours. New features are quoted separately.",
-      },
+      // Hidden until the answer is real:
+      // {
+      //   id: "monthly-fee",
+      //   question: "What does the monthly fee cover?",
+      //   answer:
+      //     "DEMO: Hosting, updates, backups and support on WhatsApp during support hours. New features are quoted separately.",
+      // },
       {
         id: "changes",
         question: "Can you change things later?",
@@ -869,11 +889,12 @@ export const faqGroups: FaqGroup[] = [
         answer:
           "You do. Your sales and customer data belong to your business, and we can export it for you.",
       },
-      {
-        id: "backups",
-        question: "Is my data backed up?",
-        answer: "DEMO: Yes, data is backed up automatically every day.",
-      },
+      // Hidden until the answer is real:
+      // {
+      //   id: "backups",
+      //   question: "Is my data backed up?",
+      //   answer: "DEMO: Yes, data is backed up automatically every day.",
+      // },
       {
         id: "delivery-apps",
         question: "Do I have to stop using delivery apps?",
@@ -886,9 +907,13 @@ export const faqGroups: FaqGroup[] = [
 
 /** Not in the SRS: wording and question picks are placeholders for the owner to confirm. */
 export const faqPreview = {
-  heading: "DEMO: Common Questions",
-  linkLabel: "DEMO: See all questions",
-  questionIds: ["hardware", "cost", "delivery-apps"],
+  // Hidden for the first deploy. To show the FAQ preview on the home page, restore these three lines:
+  // heading: "Common Questions",
+  // linkLabel: "See all questions",
+  // questionIds: ["hardware", "cost", "delivery-apps"],
+  heading: "",
+  linkLabel: "",
+  questionIds: [] as string[],
 };
 
 export function getFaqPreviewItems(): FaqItem[] {
@@ -969,18 +994,19 @@ export const footer: {
     contactHeading: "Contact",
   },
   legal: [
-    { label: "Privacy Policy", href: "/privacy" },
-    { label: "Terms of Service", href: "/terms" },
+    // { label: "Privacy Policy", href: "/privacy" },
+    // { label: "Terms of Service", href: "/terms" },
   ],
   copyright: "© 2026 Zoryx. All rights reserved.",
 };
 
 /* ---------- 7.10 Legal pages ---------- */
 
-export const legalPages: { privacy: string; terms: string } = {
-  privacy:
-    "[PRIVACY POLICY TEXT — must cover analytics, contact form data, WhatsApp, data retention, contact email]",
-  terms: "[TERMS TEXT]",
+export const legalPages: { privacy?: string; terms?: string } = {
+  // Hidden for the first deploy: without text the page does not exist, and the footer link is hidden too.
+  // To bring it back, add the text here and uncomment its link in footer.legal below.
+  // privacy: "Privacy policy text. Must cover analytics, contact form data, WhatsApp, data retention and a contact email.",
+  // terms: "Terms of service text.",
 };
 
 /* ---------- 7.11 404 ---------- */

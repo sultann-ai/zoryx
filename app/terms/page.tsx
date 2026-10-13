@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { LegalDocument } from "@/components/sections/LegalDocument";
 import { footer, legalPages, site } from "@/content/site";
 import { buildMetadata } from "@/lib/metadata";
@@ -12,5 +13,7 @@ export const metadata = buildMetadata(
 );
 
 export default function TermsPage() {
+  // No text yet: this page does not exist (it is also hidden from the footer and sitemap).
+  if (!legalPages.terms) notFound();
   return <LegalDocument title={title} body={legalPages.terms} />;
 }

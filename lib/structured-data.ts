@@ -3,20 +3,17 @@ import { isRealUrl } from "./links";
 
 /** LocalBusiness JSON-LD built from content/site.ts (NFR-3). Demo markers carry through until replaced. */
 export function localBusinessJsonLd() {
-  const sameAs = Object.values(site.social).filter(isRealUrl);
+  const sameAs = Object.values(site.social).filter((url): url is string => Boolean(url) && isRealUrl(url as string));
   return {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     name: site.brandName,
     url: `https://${site.domain}`,
     description: site.footerDescription,
-    telephone: site.phone,
-    email: site.email,
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: site.address,
-    },
-    openingHours: site.supportHours,
+    ...(site.phone ? { telephone: site.phone } : {}),
+    ...(site.email ? { email: site.email } : {}),
+    ...(site.address ? { address: { "@type": "PostalAddress", streetAddress: site.address } } : {}),
+    ...(site.supportHours ? { openingHours: site.supportHours } : {}),
     ...(sameAs.length > 0 ? { sameAs } : {}),
   };
 }
