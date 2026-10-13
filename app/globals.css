@@ -1,26 +1,170 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Colors */
+  --color-green: #2f6656;
+  --color-green-deep: #03624f;
+  --color-cream: #fef8e6;
+  --color-lime: #e6fe82;
+  --color-ink: #1f3d33;
+  --color-tomato: #e35635;
+  --color-sunflower: #f8e351;
+  --color-sky: #9dc3ff;
+  --color-white: #ffffff;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  /* Shadow */
+  --shadow-card: 0 8px 24px rgba(31, 61, 51, 0.12);
+
+  /* Fonts (next/font sets --font-bricolage and --font-dm-sans) */
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+
+  /* Spacing scale: 4, 8, 12, 16, 24, 32, 48, 64, 96, 120px.
+     Tailwind's default 4px step covers 4-96 (1, 2, 3, 4, 6, 8, 12, 16, 24); 120 is added here. */
+  --spacing-30: 120px;
+  --spacing-section: 72px;
+  --spacing-section-lg: 120px;
+  --container-site: 1200px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Base */
+html {
+  background: var(--color-cream);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+
+/* Skip layout and paint of off-screen sections until they are near the viewport (faster first render).
+   Intrinsic size is a placeholder; "auto" remembers the real size once rendered. Content stays in the a11y tree. */
+@utility defer-render {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 720px;
+}
+
+/* Typography (mobile first, desktop from 768px) */
+@utility text-display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 48px;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  @media (min-width: 768px) {
+    font-size: 96px;
+  }
+}
+
+@utility text-h2 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 34px;
+  line-height: 1;
+  letter-spacing: -0.015em;
+  @media (min-width: 768px) {
+    font-size: 56px;
+  }
+}
+
+/* Display-style quote (testimonial): Bricolage 800, 40 / 28px */
+@utility text-quote {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 28px;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  @media (min-width: 768px) {
+    font-size: 40px;
+  }
+}
+
+@utility text-h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.2;
+  letter-spacing: -0.005em;
+  @media (min-width: 768px) {
+    font-size: 24px;
+  }
+}
+
+@utility text-body-lg {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.6;
+  letter-spacing: 0;
+  @media (min-width: 768px) {
+    font-size: 18px;
+  }
+}
+
+@utility text-body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.6;
+  letter-spacing: 0;
+  @media (min-width: 768px) {
+    font-size: 16px;
+  }
+}
+
+@utility text-label {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  @media (min-width: 768px) {
+    font-size: 13px;
+  }
+}
+
+/* Focus: green outline on light backgrounds, lime inside .on-dark (green, green-deep, tomato sections).
+   In @layer base so component utilities (e.g. -outline-offset-3, outline-none) can override it. */
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--color-green);
+    outline-offset: 3px;
+  }
+
+  .on-dark :focus-visible,
+  .on-dark:focus-visible {
+    outline-color: var(--color-lime);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+    transform: none !important;
+    translate: none !important;
+    rotate: none !important;
+    scale: none !important;
+  }
 }

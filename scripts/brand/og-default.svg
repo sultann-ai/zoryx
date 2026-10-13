@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <!-- Default Open Graph image (1200x630). Fonts: Bricolage Grotesque 800, DM Sans 500/700. Rendered to public/og/default.png. -->
+  <rect width="1200" height="630" fill="#2F6656"/>
+  <!-- Cream arc echoing the site's divider -->
+  <path d="M0 520 Q600 700 1200 520 V630 H0 Z" fill="#FEF8E6"/>
+  <!-- Reversed logo: lime mark, cream wordmark, lime POS pill -->
+  <g transform="translate(72 64) scale(2)">
+    <rect width="32" height="32" rx="8" fill="#E6FE82"/>
+    <path d="M10 11h12L10 21h12" fill="none" stroke="#2F6656" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <text x="152" y="116" font-family="Bricolage Grotesque" font-weight="800" font-size="56" letter-spacing="-1" fill="#FEF8E6">zoryx</text>
+  <rect x="318" y="84" width="68" height="36" rx="18" fill="#E6FE82"/>
+  <text x="352" y="109" text-anchor="middle" font-family="DM Sans" font-weight="700" font-size="20" fill="#2F6656">POS</text>
+  <!-- Hero headline and tagline -->
+  <text x="72" y="300" font-family="Bricolage Grotesque" font-weight="800" font-size="128" letter-spacing="-2.5" fill="#FEF8E6">Built for Food</text>
+  <text x="72" y="418" font-family="Bricolage Grotesque" font-weight="800" font-size="128" letter-spacing="-2.5" fill="#FEF8E6">Businesses</text>
+  <text x="72" y="486" font-family="DM Sans" font-weight="500" font-size="30" fill="#FEF8E6" fill-opacity="0.85">Custom POS and online ordering, built around your shop.</text>
+  <text x="72" y="596" font-family="DM Sans" font-weight="700" font-size="28" fill="#2F6656">zoryx.dev</text>
+</svg>

@@ -4,11 +4,18 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "build": "node scripts/check-content.mjs && next build && node scripts/flatten-segments.mjs",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "check:content": "node scripts/check-content.mjs",
+    "check:images": "node scripts/check-images.mjs",
+    "check:site": "node scripts/check-site.mjs",
+    "build:preview": "node scripts/check-content.mjs --warn && next build && node scripts/flatten-segments.mjs",
+    "prelaunch": "pnpm lint --max-warnings 0 && pnpm typecheck && pnpm check:images && pnpm build && pnpm check:site"
   },
   "dependencies": {
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.55.0",
     "next": "16.4.0",
     "react": "19.3.0",
     "react-dom": "19.3.0"
