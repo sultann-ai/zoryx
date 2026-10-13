@@ -6,6 +6,9 @@ shape to export, how it is styled, and which line of `content/site.ts` to edit.
 You never need to touch a component. Drop a WebP file into `public/images/`, put its path in `content/site.ts`, and
 the page picks it up. The placeholder box disappears by itself.
 
+For a production deployment, run `pnpm build` after updating content and assets so the same checks used by Vercel
+run locally first.
+
 ---
 
 ## 1. How it works (read this once)
